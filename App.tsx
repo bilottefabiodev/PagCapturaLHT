@@ -34,7 +34,7 @@ const App: React.FC = () => {
 
       <StickyCTA />
       
-      <footer className="relative z-10 py-12 px-6 bg-black border-t border-red-900/30 text-center">
+      <footer id="footer-cta" className="relative z-10 py-12 px-6 bg-black border-t border-red-900/30 text-center">
         <p className="text-neutral-500 text-sm">
           © 2026 Scarlet Hypnosis. Todos os direitos reservados.
         </p>

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Target, TrendingUp, Cpu, Brain, Lock, Instagram, Star, Users, ShieldCheck, Zap, ChevronRight, AlertCircle, Rocket, BarChart3, Clock, UserCheck, UserMinus } from 'lucide-react';
+import { Target, TrendingUp, Cpu, Brain, Lock, Instagram, Star, Users, ShieldCheck, Zap, ChevronRight, AlertCircle, Rocket, BarChart3, Clock, UserCheck, UserMinus, CheckCircle2, Quote } from 'lucide-react';
 
 const Card: React.FC<{ title: string; children: React.ReactNode; icon: React.ReactNode }> = ({ title, children, icon }) => (
   <div className="p-8 rounded-2xl bg-neutral-900/40 border border-neutral-800 backdrop-blur-sm hover:border-red-900/50 transition-all duration-300">
@@ -93,13 +93,106 @@ export const ContentSections: React.FC = () => {
         </div>
       </section>
 
+      {/* SEÇÃO 4A – O QUE VOCÊ VAI LEVAR */}
+      <section className="py-24 px-6 max-w-4xl mx-auto bg-gradient-to-b from-transparent to-red-950/10">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4">O que você vai levar dessa aula</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          {[
+            "Visão brutalmente honesta do porquê seus lançamentos estão rendendo menos",
+            "O mapa do modelo híbrido de lançamento high ticket",
+            "Clareza sobre como encaixar sua realidade nesse modelo (tempo, verba, estrutura)",
+            "Pilares pra reduzir a dependência do Instagram e aumentar vendas"
+          ].map((text, i) => (
+            <div key={i} className="flex gap-4 items-start p-4 rounded-xl bg-neutral-900/30 border border-neutral-800">
+              <CheckCircle2 size={24} className="text-red-500 flex-shrink-0" />
+              <p className="text-neutral-300 text-sm leading-relaxed">{text}</p>
+            </div>
+          ))}
+        </div>
+        <div className="text-center p-8 rounded-2xl border border-red-500/20 bg-red-950/5 backdrop-blur-md">
+          <p className="text-white font-medium italic">
+            "A coragem técnica de admitir que o problema não é você — é o modelo que você continua obedecendo por medo."
+          </p>
+        </div>
+      </section>
+
+      {/* SEÇÃO 4B – DIAGNÓSTICO VISUAL */}
+      <section className="py-24 px-6 max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-5xl font-serif font-bold text-white">Qual modelo seu negócio opera hoje?</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Card 1: Submisso */}
+          <div className="p-8 rounded-3xl bg-neutral-900/20 border border-neutral-800/50 opacity-70 scale-95 transition-all">
+            <span className="text-[10px] uppercase tracking-widest text-neutral-500 mb-4 block">Modelo 01</span>
+            <h4 className="text-xl font-bold text-neutral-300 mb-6 uppercase">Submisso ao Algoritmo</h4>
+            <ul className="space-y-4 text-sm text-neutral-500">
+              <li className="flex gap-2">✕ Transmite dependência</li>
+              <li className="flex gap-2">✕ Muito volume, pouca densidade</li>
+              <li className="flex gap-2">✕ Você trabalha para o feed</li>
+            </ul>
+          </div>
+          
+          {/* Card 2: Autoritário */}
+          <div className="p-8 rounded-3xl bg-neutral-900/40 border border-red-900/40 scale-100 transition-all relative">
+            <span className="text-[10px] uppercase tracking-widest text-red-500 mb-4 block">Modelo 02</span>
+            <h4 className="text-xl font-bold text-white mb-6 uppercase">Autoritário do Lançamento</h4>
+            <ul className="space-y-4 text-sm text-neutral-400">
+              <li className="flex gap-2">✕ Transmite imposição e cansaço</li>
+              <li className="flex gap-2">✕ "Compre agora ou morra"</li>
+              <li className="flex gap-2">✕ Você vive em modo campanha</li>
+            </ul>
+          </div>
+
+          {/* Card 3: Arquitetado */}
+          <div className="p-8 rounded-3xl bg-gradient-to-br from-neutral-900 to-red-950/30 border-2 border-red-600 shadow-[0_0_40px_rgba(220,38,38,0.2)] scale-105 transition-all relative z-10">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-red-600 px-4 py-1 rounded-full whitespace-nowrap">
+               <span className="text-[10px] font-black uppercase tracking-widest text-white">Onde você deveria estar</span>
+            </div>
+            <span className="text-[10px] uppercase tracking-widest text-amber-500 mb-4 block font-bold">Modelo 03</span>
+            <h4 className="text-xl font-bold text-white mb-6 uppercase">Arquitetado (Antifrágil)</h4>
+            <ul className="space-y-4 text-sm text-white">
+              <li className="flex gap-2 font-medium">✓ Transmite clareza e valor</li>
+              <li className="flex gap-2 font-medium">✓ Profundidade que atrai qualificados</li>
+              <li className="flex gap-2 font-medium">✓ Sistema que sustenta sem te sugar</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* SEÇÃO 5 – POR QUE É GRATUITO? */}
+      <section className="py-24 px-6 max-w-4xl mx-auto">
+        <div className="p-12 md:p-16 rounded-[3rem] bg-neutral-950 border border-red-900/20 relative overflow-hidden">
+          <Quote className="absolute top-10 right-10 text-red-900/20 w-32 h-32 -rotate-12" />
+          <div className="relative z-10 text-center">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-white mb-10">Por que essa aula é gratuita?</h2>
+            <p className="text-2xl md:text-4xl font-serif italic text-red-500 mb-10 leading-tight">
+              "Eu já paguei mentoria cara que não tinha nem 1/3 do que você entregou aqui."
+            </p>
+            <div className="max-w-2xl mx-auto space-y-6 text-neutral-400 text-sm md:text-base">
+              <p>
+                O motivo de ser gratuita é estratégico e transparente: é nosso <strong>"primeiro encontro"</strong>.
+              </p>
+              <p>
+                Eu quero que você teste, na prática, se esse nível de profundidade conversa com o seu. Se fizer sentido, lá dentro eu vou te mostrar como continuar essa construção comigo em 2026.
+              </p>
+              <p className="font-bold text-neutral-300 uppercase tracking-widest text-xs pt-4">
+                Sem manipulação. Sem "gatilho da gratidão".
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SEÇÃO 6/7 – PÚBLICO */}
       <section className="py-24 px-6 bg-red-950/10 border-y border-red-900/20">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
           <div>
             <div className="flex items-center gap-3 mb-8">
               <UserCheck className="text-emerald-500" size={28} />
-              <h2 className="text-2xl font-serif font-bold">Pra quem é</h2>
+              <h2 className="text-2xl font-serif font-bold text-white">Pra quem é</h2>
             </div>
             <ul className="space-y-4 text-neutral-300">
               <li className="flex gap-2">✓ Experts que já bateram 6 ou 7 dígitos</li>
@@ -140,7 +233,7 @@ export const ContentSections: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-widest text-white">Os Arquitetos</span>
           </div>
         </div>
-        <h2 className="text-3xl font-serif font-bold mb-8">Tatiana & Fábio</h2>
+        <h2 className="text-3xl font-serif font-bold text-white mb-8">Tatiana & Fábio</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
           {[
             { val: "R$ 10M+", label: "No Digital" },
