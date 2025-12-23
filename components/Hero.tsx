@@ -1,107 +1,100 @@
+
 import React from 'react';
 import { Calendar, Clock, MapPin, CheckCircle2, ChevronRight } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   return (
-    <section className="relative w-full max-w-7xl mx-auto px-6 py-8 md:py-24 flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-20">
+    <section className="relative w-full max-w-7xl mx-auto px-6 py-8 md:py-24 flex flex-col items-center gap-8 lg:gap-12">
       
-      {/* LADO ESQUERDO (Texto) */}
-      <div className="flex-1 text-center lg:text-left z-10 space-y-6 animate-fade-in-up">
+      {/* 1. IMAGEM (Topo) */}
+      <div className="relative w-full max-w-2xl lg:max-w-3xl mx-auto">
+        {/* Glow de Fundo */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-red-600/10 blur-[100px] rounded-full -z-10"></div>
         
-        {/* Barra de Evento */}
-        <div className="inline-flex flex-wrap justify-center lg:justify-start items-center gap-3 p-1.5 rounded-full border border-red-900/40 bg-red-950/20 backdrop-blur-md">
-            <span className="px-3 py-1 rounded-full bg-red-600 text-white text-[10px] font-bold uppercase tracking-widest animate-pulse">
-              Ao Vivo
-            </span>
-            <div className="flex items-center gap-2 px-2">
-              <Calendar size={12} className="text-red-400" />
-              <span className="text-xs text-neutral-300 font-medium">10 Jan</span>
-            </div>
-            <div className="w-px h-3 bg-red-900/50"></div>
-            <div className="flex items-center gap-2 px-2">
-              <Clock size={12} className="text-red-400" />
-              <span className="text-xs text-neutral-300 font-medium">14h - 16h</span>
-            </div>
+        <div className="relative aspect-video w-full overflow-hidden rounded-[2.5rem] border border-white/5 shadow-2xl bg-neutral-900 group">
+            <img 
+              src="https://i.ibb.co/SD4gMVXY/IMG-8474.jpg" 
+              alt="Expert Scarlet Hypnosis" 
+              className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 ease-out"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=1200";
+              }}
+            />
+            {/* Sutil vinheta na imagem para integração */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
         </div>
+      </div>
 
+      {/* 2. BARRA DE METADADOS (Entre a imagem e o texto) */}
+      <div className="w-full max-w-sm mx-auto flex flex-col items-center animate-fade-in text-center">
+          <div className="px-6 py-3 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-md flex flex-col items-center gap-2 shadow-xl shadow-black/20">
+              <span className="text-xs md:text-sm font-bold text-neutral-100 tracking-[0.2em] uppercase">
+                Lançamento High Ticket
+              </span>
+              <div className="flex items-center gap-3 text-[10px] md:text-xs font-medium text-neutral-400 uppercase tracking-widest">
+                  <span className="text-red-500 font-black">Ao Vivo</span>
+                  <span className="w-1 h-1 rounded-full bg-neutral-700"></span>
+                  <div className="flex items-center gap-1.5">
+                    <Calendar size={12} className="text-red-900/60" />
+                    <span>10 Jan</span>
+                  </div>
+                  <span className="w-1 h-1 rounded-full bg-neutral-700"></span>
+                  <div className="flex items-center gap-1.5">
+                    <Clock size={12} className="text-red-900/60" />
+                    <span>14h - 16h</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      {/* 3. CONTEÚDO (Headline e Benefícios) */}
+      <div className="w-full max-w-4xl text-center z-10 space-y-8 animate-fade-in-up">
+        
         {/* Título Principal */}
-        <div className="space-y-4">
-          <h1 className="text-3xl md:text-5xl font-serif font-bold text-white leading-[1.2] text-glow-red">
+        <div className="space-y-6">
+          <h1 className="text-4xl md:text-6xl font-serif font-bold text-white leading-[1.1] text-glow-red tracking-tight max-w-3xl mx-auto">
             O modelo de lançamento para vender <span className="text-amber-500">High Ticket</span> mais lucrativo e verdadeiramente sustentável do digital em 2026.
           </h1>
           
-          <h2 className="text-lg md:text-xl text-neutral-200 font-medium leading-relaxed">
+          <h2 className="text-lg md:text-xl text-neutral-300 font-medium leading-relaxed max-w-2xl mx-auto">
             O plano à prova de mercado caro e desconfiado, com o melhor dos 3 mundos:
           </h2>
         </div>
 
-        {/* Lista de Benefícios */}
-        <ul className="space-y-3 max-w-md mx-auto lg:mx-0 text-left">
+        {/* Lista de Benefícios (Centralizada para o novo layout) */}
+        <div className="flex flex-col md:flex-row flex-wrap justify-center gap-4 md:gap-8">
             {[
-              "Volume de leads do lançamento gratuito",
-              "ROI exponencial do lançamento pago",
-              "Sistema orgânico contínuo (COSMOS)"
+              "Volume de leads gratuito",
+              "ROI exponencial do pago",
+              "Sistema orgânico (COSMOS)"
             ].map((item, i) => (
-              <li key={i} className="flex items-start gap-3 text-neutral-300 text-sm md:text-base p-2 hover:bg-white/5 rounded-lg transition-colors">
-                <CheckCircle2 size={18} className="text-red-500 flex-shrink-0 mt-0.5" />
-                <span>{item}</span>
-              </li>
+              <div key={i} className="flex items-center gap-3 text-neutral-300 text-sm md:text-base px-4 py-2 bg-white/[0.02] border border-white/[0.05] rounded-full">
+                <CheckCircle2 size={16} className="text-red-600 flex-shrink-0" />
+                <span className="font-medium">{item}</span>
+              </div>
             ))}
-        </ul>
+        </div>
 
-        {/* Fechamento + CTA */}
-        <div className="pt-2 space-y-6">
-           <p className="text-neutral-500 text-xs md:text-sm italic border-l-2 border-red-900/30 pl-4 text-left max-w-md mx-auto lg:mx-0">
-             ...sem equipe dedicada, com rotina real de 4h por dia e usando seu próprio desenvolvimento pessoal para sair do nicho saturado.
-           </p>
-
-           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+        {/* CTA Principal */}
+        <div className="pt-4 flex flex-col items-center gap-6">
              <button 
-               onClick={() => window.scrollTo({ top: 1000, behavior: 'smooth' })}
-               className="group relative flex items-center justify-center gap-3 bg-white text-black font-bold py-4 px-8 rounded-full shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-[1.02] active:scale-95 transition-all duration-300 w-full sm:w-auto"
+               onClick={() => window.scrollTo({ top: 1200, behavior: 'smooth' })}
+               className="group relative flex items-center justify-center gap-4 bg-white text-black font-black py-5 px-10 rounded-full shadow-[0_0_50px_rgba(255,255,255,0.15)] hover:scale-[1.03] active:scale-95 transition-all duration-300 w-full sm:w-auto overflow-hidden"
              >
-               <span>Garantir Vaga Gratuita</span>
-               <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform text-red-600" />
+               <span className="uppercase tracking-widest text-sm md:text-base">Garantir Vaga Gratuita</span>
+               <div className="w-8 h-8 rounded-full bg-neutral-900 flex items-center justify-center text-white group-hover:bg-red-600 transition-all duration-300">
+                  <ChevronRight size={18} />
+               </div>
+               {/* Shimmer effect */}
+               <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-red-100/30 to-transparent group-hover:left-[100%] transition-all duration-1000"></div>
              </button>
-           </div>
+
+             <p className="text-neutral-500 text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold">
+               ...SEM EQUIPE DEDICADA, COM ROTINA REAL DE 4H POR DIA.
+             </p>
         </div>
       </div>
 
-      {/* LADO DIREITO (Imagem) */}
-      <div className="flex-1 relative w-full lg:max-w-none mx-auto">
-        
-        {/* Glow de Fundo */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-red-600/20 blur-[80px] rounded-full -z-10"></div>
-        
-        {/* Moldura da Imagem (Horizontal 16:9) */}
-        <div className="relative aspect-video w-full overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl shadow-red-900/20 bg-neutral-900 group">
-            
-            <img 
-              src="https://i.ibb.co/SD4gMVXY/IMG-8474.jpg" 
-              alt="Expert Scarlet Hypnosis" 
-              className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800";
-              }}
-            />
-
-            {/* Gradiente Overlay (Base) */}
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
-
-            {/* CARD FLUTUANTE (Compacto e Baixo) */}
-            <div className="absolute bottom-3 left-3 right-3 md:bottom-5 md:left-5 md:right-5 p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg transition-transform hover:scale-[1.02]">
-                <div className="flex items-center justify-between">
-                    {/* Texto Simplificado e Fonte Ajustada */}
-                    <p className="text-sm font-bold text-white pl-1 tracking-wide shadow-black drop-shadow-md">
-                        Lançamento High Ticket
-                    </p>
-                    <div className="h-7 w-7 rounded-full bg-red-600 flex items-center justify-center animate-pulse shadow-lg shadow-red-900/50">
-                        <CheckCircle2 size={14} className="text-white" />
-                    </div>
-                </div>
-            </div>
-        </div>
-      </div>
     </section>
   );
 };
