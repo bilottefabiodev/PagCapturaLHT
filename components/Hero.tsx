@@ -3,99 +3,105 @@ import { Calendar, Clock, MapPin, CheckCircle2, ChevronRight } from 'lucide-reac
 
 export const Hero: React.FC = () => {
   return (
-    <section className="relative w-full max-w-2xl px-6 pt-12 pb-24 text-center flex flex-col items-center">
+    <section className="relative w-full max-w-7xl mx-auto px-6 py-8 md:py-24 flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-20">
       
-      {/* 1. HERO SHOT (TOPO) */}
-      <div className="relative w-full max-w-sm mb-8 z-10">
-        <div className="hero-mask overflow-hidden rounded-b-3xl shadow-[0_0_50px_rgba(220,38,38,0.15)]">
-          <img 
-            src="https://i.ibb.co/SD4gMVXY/IMG-8474.jpg" 
-            alt="Expert Scarlet Hypnosis" 
-            className="w-full h-auto object-cover grayscale-[10%] hover:grayscale-0 transition-all duration-700 scale-105"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800";
-            }}
-          />
-        </div>
-        {/* Vignette para integrar com o fundo */}
-        <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent"></div>
-      </div>
-
-      {/* Badge "Lançamento High Ticket" */}
-      <div className="inline-block px-4 py-1 mb-6 border border-red-900/50 rounded-full bg-red-950/20 backdrop-blur-sm">
-        <span className="text-red-500 font-bold tracking-[0.2em] text-[10px] uppercase">
-          Lançamento High Ticket 2026
-        </span>
-      </div>
-
-      {/* 2. HEADLINE (A PROMESSA) */}
-      <h1 className="text-3xl md:text-5xl font-serif font-bold text-white mb-4 leading-tight text-glow-red">
-        O modelo de lançamento para vender <span className="text-amber-500">High Ticket</span> mais lucrativo e verdadeiramente sustentável do digital em 2026.
-      </h1>
-
-      {/* 3. SUBHEADLINE (RETENÇÃO) */}
-      <h2 className="text-lg md:text-xl text-neutral-200 font-medium mb-4 max-w-lg mx-auto leading-relaxed">
-        O plano à prova de mercado caro e desconfiado, com o melhor dos 3 mundos.
-      </h2>
-
-      {/* 4. O "COMO" (CONEXÃO - NOVO TRECHO) */}
-      <p className="text-sm md:text-base text-neutral-400 font-light mb-8 max-w-lg mx-auto leading-relaxed italic border-l-2 border-red-900/30 pl-4">
-        "...sem equipe dedicada, com rotina real de 4h por dia e usando seu próprio desenvolvimento pessoal pra sair do 'seu nicho saturado'."
-      </p>
-
-      {/* 5. METADADOS (REPOSICIONADOS E DISCRETOS) */}
-      <div className="flex flex-wrap justify-center gap-3 mb-8 opacity-80">
-        <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-800/50">
-          <Calendar size={12} className="text-red-500" />
-          <span className="text-[10px] md:text-xs text-neutral-500 font-medium uppercase tracking-wide">Sábado, 10 Jan</span>
-        </div>
-        <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-800/50">
-          <Clock size={12} className="text-red-500" />
-          <span className="text-[10px] md:text-xs text-neutral-500 font-medium uppercase tracking-wide">14h às 16h</span>
-        </div>
-        <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-800/50">
-          <MapPin size={12} className="text-red-500" />
-          <span className="text-[10px] md:text-xs text-neutral-500 font-medium uppercase tracking-wide">Online (Zoom)</span>
-        </div>
-      </div>
-
-      {/* 6. PÍLULAS DE BENEFÍCIOS (LÓGICA) */}
-      <div className="flex flex-col gap-3 w-full max-w-md mx-auto mb-10">
-        {[
-          "Volume de leads do lançamento gratuito",
-          "ROI exponencial do lançamento pago",
-          "Sistema orgânico contínuo (COSMOS)"
-        ].map((item, idx) => (
-          <div 
-            key={idx}
-            className="pill-gradient border border-red-900/30 rounded-xl py-4 px-5 flex items-center gap-4 text-left backdrop-blur-md shadow-lg shadow-red-950/10 group hover:border-red-500/30 transition-colors"
-          >
-            <div className="w-5 h-5 rounded-full bg-red-600/20 border border-red-500/50 flex items-center justify-center flex-shrink-0 group-hover:bg-red-600 group-hover:text-white transition-all">
-              <CheckCircle2 size={12} className="text-red-500 group-hover:text-white" />
-            </div>
-            <span className="text-sm font-medium text-neutral-200 group-hover:text-white">{item}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* 7. CTA PRINCIPAL (AÇÃO) */}
-      <button 
-        onClick={() => document.getElementById('signup-section')?.scrollIntoView({ behavior: 'smooth' })}
-        className="w-full max-w-md group relative flex items-center justify-center gap-3 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-bold py-5 px-8 rounded-full shadow-[0_0_30px_rgba(217,119,6,0.3)] hover:scale-[1.02] active:scale-95 transition-all duration-300 overflow-hidden"
-      >
-        <span className="relative z-10 text-sm md:text-base tracking-widest uppercase">
-          Garantir Minha Vaga Gratuita
-        </span>
-        <ChevronRight size={18} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+      {/* LADO ESQUERDO (Texto) */}
+      <div className="flex-1 text-center lg:text-left z-10 space-y-6 animate-fade-in-up">
         
-        {/* Shine effect */}
-        <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:left-[100%] transition-all duration-700"></div>
-      </button>
+        {/* Barra de Evento */}
+        <div className="inline-flex flex-wrap justify-center lg:justify-start items-center gap-3 p-1.5 rounded-full border border-red-900/40 bg-red-950/20 backdrop-blur-md">
+            <span className="px-3 py-1 rounded-full bg-red-600 text-white text-[10px] font-bold uppercase tracking-widest animate-pulse">
+              Ao Vivo
+            </span>
+            <div className="flex items-center gap-2 px-2">
+              <Calendar size={12} className="text-red-400" />
+              <span className="text-xs text-neutral-300 font-medium">10 Jan</span>
+            </div>
+            <div className="w-px h-3 bg-red-900/50"></div>
+            <div className="flex items-center gap-2 px-2">
+              <Clock size={12} className="text-red-400" />
+              <span className="text-xs text-neutral-300 font-medium">14h - 16h</span>
+            </div>
+        </div>
 
-      <p className="mt-4 text-xs text-neutral-600 max-w-xs mx-auto">
-        *Evento 100% online e gratuito. Vagas limitadas no Zoom.
-      </p>
+        {/* Título Principal */}
+        <div className="space-y-4">
+          <h1 className="text-3xl md:text-5xl font-serif font-bold text-white leading-[1.2] text-glow-red">
+            O modelo de lançamento para vender <span className="text-amber-500">High Ticket</span> mais lucrativo e verdadeiramente sustentável do digital em 2026.
+          </h1>
+          
+          <h2 className="text-lg md:text-xl text-neutral-200 font-medium leading-relaxed">
+            O plano à prova de mercado caro e desconfiado, com o melhor dos 3 mundos:
+          </h2>
+        </div>
 
+        {/* Lista de Benefícios */}
+        <ul className="space-y-3 max-w-md mx-auto lg:mx-0 text-left">
+            {[
+              "Volume de leads do lançamento gratuito",
+              "ROI exponencial do lançamento pago",
+              "Sistema orgânico contínuo (COSMOS)"
+            ].map((item, i) => (
+              <li key={i} className="flex items-start gap-3 text-neutral-300 text-sm md:text-base p-2 hover:bg-white/5 rounded-lg transition-colors">
+                <CheckCircle2 size={18} className="text-red-500 flex-shrink-0 mt-0.5" />
+                <span>{item}</span>
+              </li>
+            ))}
+        </ul>
+
+        {/* Fechamento + CTA */}
+        <div className="pt-2 space-y-6">
+           <p className="text-neutral-500 text-xs md:text-sm italic border-l-2 border-red-900/30 pl-4 text-left max-w-md mx-auto lg:mx-0">
+             ...sem equipe dedicada, com rotina real de 4h por dia e usando seu próprio desenvolvimento pessoal para sair do nicho saturado.
+           </p>
+
+           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+             <button 
+               onClick={() => window.scrollTo({ top: 1000, behavior: 'smooth' })}
+               className="group relative flex items-center justify-center gap-3 bg-white text-black font-bold py-4 px-8 rounded-full shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-[1.02] active:scale-95 transition-all duration-300 w-full sm:w-auto"
+             >
+               <span>Garantir Vaga Gratuita</span>
+               <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform text-red-600" />
+             </button>
+           </div>
+        </div>
+      </div>
+
+      {/* LADO DIREITO (Imagem) */}
+      <div className="flex-1 relative w-full lg:max-w-none mx-auto">
+        
+        {/* Glow de Fundo */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-red-600/20 blur-[80px] rounded-full -z-10"></div>
+        
+        {/* Moldura da Imagem (Horizontal 16:9) */}
+        <div className="relative aspect-video w-full overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl shadow-red-900/20 bg-neutral-900 group">
+            
+            <img 
+              src="https://i.ibb.co/SD4gMVXY/IMG-8474.jpg" 
+              alt="Expert Scarlet Hypnosis" 
+              className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800";
+              }}
+            />
+
+            {/* Gradiente Overlay (Base) */}
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+
+            {/* CARD FLUTUANTE (Compacto e Baixo) */}
+            <div className="absolute bottom-3 left-3 right-3 md:bottom-5 md:left-5 md:right-5 p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg transition-transform hover:scale-[1.02]">
+                <div className="flex items-center justify-between">
+                    {/* Texto Simplificado e Fonte Ajustada */}
+                    <p className="text-sm font-bold text-white pl-1 tracking-wide shadow-black drop-shadow-md">
+                        Lançamento High Ticket
+                    </p>
+                    <div className="h-7 w-7 rounded-full bg-red-600 flex items-center justify-center animate-pulse shadow-lg shadow-red-900/50">
+                        <CheckCircle2 size={14} className="text-white" />
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
     </section>
   );
 };
