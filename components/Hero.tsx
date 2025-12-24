@@ -1,6 +1,10 @@
-
 import React from 'react';
 import { Calendar, Clock, MapPin, CheckCircle2, ChevronRight } from 'lucide-react';
+
+// 1. IMPORTAÇÃO DA IMAGEM LOCAL
+// O "@" aponta para a raiz do projeto (configurado no teu vite.config.ts)
+import expertPhoto from '@/assets/images/foto-hd.jpg'; 
+// OBS: Certifica-te que o nome do arquivo (foto-hd.jpg) é EXATAMENTE igual ao que salvaste.
 
 export const Hero: React.FC = () => {
   return (
@@ -12,20 +16,20 @@ export const Hero: React.FC = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-red-600/10 blur-[100px] rounded-full -z-10"></div>
         
         <div className="relative aspect-video w-full overflow-hidden rounded-[2.5rem] border border-white/5 shadow-2xl bg-neutral-900 group">
+            
+            {/* 2. USO DA IMAGEM IMPORTADA AQUI NO SRC */}
             <img 
-              src="https://i.ibb.co/SD4gMVXY/IMG-8474.jpg" 
+              src={expertPhoto} 
               alt="Expert Scarlet Hypnosis" 
               className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 ease-out"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=1200";
-              }}
             />
+            
             {/* Sutil vinheta na imagem para integração */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
         </div>
       </div>
 
-      {/* 2. BARRA DE METADADOS (Entre a imagem e o texto) */}
+      {/* 2. BARRA DE METADADOS */}
       <div className="w-full max-w-sm mx-auto flex flex-col items-center animate-fade-in text-center">
           <div className="px-6 py-3 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-md flex flex-col items-center gap-2 shadow-xl shadow-black/20">
               <span className="text-xs md:text-sm font-bold text-neutral-100 tracking-[0.2em] uppercase">
@@ -47,10 +51,9 @@ export const Hero: React.FC = () => {
           </div>
       </div>
 
-      {/* 3. CONTEÚDO (Headline e Benefícios) */}
+      {/* 3. CONTEÚDO */}
       <div className="w-full max-w-4xl text-center z-10 space-y-8 animate-fade-in-up">
         
-        {/* Título Principal */}
         <div className="space-y-6">
           <h1 className="text-4xl md:text-6xl font-serif font-bold text-white leading-[1.1] text-glow-red tracking-tight max-w-3xl mx-auto">
             O modelo de lançamento para vender <span className="text-amber-500">High Ticket</span> mais lucrativo e verdadeiramente sustentável do digital em 2026.
@@ -61,7 +64,6 @@ export const Hero: React.FC = () => {
           </h2>
         </div>
 
-        {/* Lista de Benefícios (Centralizada para o novo layout) */}
         <div className="flex flex-col md:flex-row flex-wrap justify-center gap-4 md:gap-8">
             {[
               "Volume de leads gratuito",
@@ -75,7 +77,6 @@ export const Hero: React.FC = () => {
             ))}
         </div>
 
-        {/* CTA Principal */}
         <div className="pt-4 flex flex-col items-center gap-6">
              <button 
                onClick={() => window.scrollTo({ top: 1200, behavior: 'smooth' })}
@@ -85,7 +86,6 @@ export const Hero: React.FC = () => {
                <div className="w-8 h-8 rounded-full bg-neutral-900 flex items-center justify-center text-white group-hover:bg-red-600 transition-all duration-300">
                   <ChevronRight size={18} />
                </div>
-               {/* Shimmer effect */}
                <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-red-100/30 to-transparent group-hover:left-[100%] transition-all duration-1000"></div>
              </button>
 
