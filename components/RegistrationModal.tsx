@@ -22,19 +22,29 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
     setIsSubmitting(true);
     
     try {
-      // 1. Prepara os dados (adiciona o +55 e limpa caracteres extras)
+      // Função para capturar cookies do navegador (necessário para fbp/fbc)
+      const getCookie = (name: string) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop()?.split(';').shift();
+        return '';
+      };
+
+      // 1. Prepara o payload enriquecido
       const payload = {
         email: formData.email,
-        phone: `55${formData.phone.replace(/\D/g, '')}`, // Remove parênteses/traços e add 55
+        phone: `55${formData.phone.replace(/\D/g, '')}`,
         profile: formData.profile,
         origin: 'Landing Page High Ticket',
-        date: new Date().toISOString()
+        date: new Date().toISOString(),
+        // Dados adicionais para inteligência do Meta Ads
+        client_user_agent: navigator.userAgent,
+        fbp: getCookie('_fbp'),
+        fbc: getCookie('_fbc'),
+        event_source_url: window.location.href
       };
 
       // 2. Dispara o Webhook para o n8n
-      // O 'no-cors' é usado as vezes se o webhook não retornar headers padrão, 
-      // mas o ideal é tentar sem ele primeiro para garantir que recebeu o 200 OK.
-      // Se der erro de CORS no console, avise que ajustamos.
       const response = await fetch('https://foda-n8n-webhook.nxjcjs.easypanel.host/webhook/lead-lht', {
         method: 'POST',
         headers: {
@@ -43,18 +53,16 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
         body: JSON.stringify(payload),
       });
 
-      // Se o status for 200-299, sucesso!
       if (response.ok) {
         setIsSuccess(true);
       } else {
         console.error('Erro ao enviar para o n8n');
-        // Fallback: Mostra sucesso para o usuário não travar, mas loga o erro
         setIsSuccess(true); 
       }
 
     } catch (error) {
       console.error('Erro de conexão:', error);
-      setIsSuccess(true); // Garante a UX positiva mesmo se a internet oscilar
+      setIsSuccess(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -79,18 +87,12 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm animate-fade-in">
-      {/* Clique fora para fechar */}
       <div className="absolute inset-0" onClick={onClose}></div>
 
       <div className="relative w-full max-w-md p-8 rounded-3xl bg-[#0a0a0a] border border-red-900/30 shadow-[0_0_60px_rgba(220,38,38,0.15)] overflow-hidden animate-fade-in-up">
-        
-        {/* Glow Effects */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent blur-sm"></div>
         
-        <button 
-          onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-neutral-500 hover:text-white transition-colors z-10"
-        >
+        <button onClick={onClose} className="absolute top-4 right-4 p-2 text-neutral-500 hover:text-white transition-colors z-10">
           <X size={20} />
         </button>
 
@@ -101,8 +103,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          
-          {/* Email */}
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-neutral-300 uppercase tracking-wider ml-1">Email Profissional</label>
             <input 
@@ -115,7 +115,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
             />
           </div>
 
-          {/* Whatsapp */}
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-neutral-300 uppercase tracking-wider ml-1">WhatsApp</label>
             <div className="relative flex items-center">
@@ -133,7 +132,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
             </div>
           </div>
 
-          {/* Pergunta de Perfil */}
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-neutral-300 uppercase tracking-wider ml-1">Seu Momento Atual</label>
             <div className="relative">
@@ -155,7 +153,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
             </div>
           </div>
 
-          {/* Botão Submit */}
           <button 
             type="submit"
             disabled={isSubmitting}
@@ -165,7 +162,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
               {isSubmitting ? 'Enviando...' : 'Confirmar Inscrição'}
             </span>
             {!isSubmitting && <ChevronRight size={18} className="relative z-10 text-red-600" />}
-            
             <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-red-100/50 to-transparent group-hover:left-[100%] transition-all duration-700"></div>
           </button>
 
@@ -173,7 +169,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
             <Lock size={10} />
             <span>Seus dados estão protegidos. Zero spam.</span>
           </div>
-
         </form>
       </div>
     </div>
