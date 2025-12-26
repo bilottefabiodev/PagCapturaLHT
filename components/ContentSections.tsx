@@ -1,5 +1,5 @@
 import React from 'react';
-import { Target, TrendingUp, Cpu, Brain, Lock, Instagram, Star, Users, ShieldCheck, Zap, ChevronRight, AlertCircle, Rocket, BarChart3, Clock, UserCheck, UserMinus, CheckCircle2, Quote } from 'lucide-react';
+import { Target, Cpu, Instagram, Users, BarChart3, Clock, UserCheck, UserMinus, CheckCircle2, Quote, Sparkles } from 'lucide-react';
 
 // Card adaptável para fundos claros e escuros
 const Card: React.FC<{ title: string; children: React.ReactNode; icon: React.ReactNode }> = ({ title, children, icon }) => (
@@ -14,11 +14,66 @@ const Card: React.FC<{ title: string; children: React.ReactNode; icon: React.Rea
   </div>
 );
 
+// Componente auxiliar para o Carrossel de Nichos
+const NicheMarquee = () => {
+  const nichesrow1 = [
+    "Astrologia", "Consultoria Financeira", "Desbloqueio de crenças", "Psicologia Clínica", "Copywriter", 
+    "Direção Artística", "Branding", "Marketing Digital", "Kundalini", "Inglês", "Constelação Familiar"
+  ];
+  
+  const nichesrow2 = [
+    "Eneagrama e Temperamentos", "Ho'oponopono", "Tarô", "Composição Musical", "Coach de Surfe", 
+    "Tzolkin", "Consultoria de Estilo", "Advocacia", "Pilates", "Feitiços e Magia", "Cura Quântica"
+  ];
+
+  return (
+    <div className="w-full py-12 overflow-hidden relative">
+      {/* Sombras laterais para suavizar a borda */}
+      <div className="absolute left-0 top-0 z-10 h-full w-24 bg-gradient-to-r from-[#050505] to-transparent"></div>
+      <div className="absolute right-0 top-0 z-10 h-full w-24 bg-gradient-to-l from-[#050505] to-transparent"></div>
+
+      {/* Estilo inline para a animação sem precisar mexer no tailwind.config */}
+      <style>{`
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes scroll-reverse {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+        .animate-scroll { animation: scroll 40s linear infinite; }
+        .animate-scroll-reverse { animation: scroll-reverse 40s linear infinite; }
+      `}</style>
+
+      {/* Linha 1 */}
+      <div className="flex mb-4 w-max animate-scroll hover:[animation-play-state:paused]">
+        {[...nichesrow1, ...nichesrow1].map((niche, i) => (
+          <div key={i} className="mx-2 px-6 py-2 rounded-full bg-white/[0.03] border border-white/10 text-neutral-300 text-sm whitespace-nowrap flex items-center gap-2">
+            <Sparkles size={12} className="text-red-500 opacity-50" />
+            {niche}
+          </div>
+        ))}
+      </div>
+
+      {/* Linha 2 (Direção oposta se quiser, ou mesma com delay. Aqui fiz reverse visual pelo CSS) */}
+      <div className="flex w-max animate-scroll-reverse hover:[animation-play-state:paused]">
+        {[...nichesrow2, ...nichesrow2].map((niche, i) => (
+          <div key={i} className="mx-2 px-6 py-2 rounded-full bg-white/[0.03] border border-white/10 text-neutral-300 text-sm whitespace-nowrap flex items-center gap-2">
+             <div className="w-1.5 h-1.5 rounded-full bg-red-900"></div>
+            {niche}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export const ContentSections: React.FC = () => {
   return (
     <div className="w-full pb-32">
       
-      {/* SEÇÃO 1 – O CONTEXTO (AGORA FUNDO CLARO) */}
+      {/* SEÇÃO 1 – O CONTEXTO (FUNDO CLARO) */}
       <section className="py-24 px-6 w-full bg-[#F5F5F7] text-neutral-900">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-serif font-bold mb-8 text-red-900">Você não está fracassando nos lançamentos.</h2>
@@ -42,7 +97,7 @@ export const ContentSections: React.FC = () => {
         </div>
       </section>
 
-      {/* SEÇÃO 2 – OS PROBLEMAS (FUNDO ESCURO - Mantém o peso) */}
+      {/* SEÇÃO 2 – OS PROBLEMAS (FUNDO ESCURO) */}
       <section className="py-24 px-6 max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-red-500 font-bold tracking-widest text-xs uppercase mb-4 block">Diagnóstico Brutal</span>
@@ -96,7 +151,7 @@ export const ContentSections: React.FC = () => {
         </div>
       </section>
 
-      {/* SEÇÃO 4 – O QUE VOCÊ VAI LEVAR (AGORA FUNDO CLARO - Clareza Mental) */}
+      {/* SEÇÃO 4 – O QUE VOCÊ VAI LEVAR (FUNDO CLARO) */}
       <section className="py-24 px-6 w-full bg-[#F0F0F2]">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
@@ -163,6 +218,14 @@ export const ContentSections: React.FC = () => {
           </div>
         </div>
       </section>
+      
+      {/* SEÇÃO NOVA: CARROSSEL DE NICHOS */}
+      <section className="py-16 w-full border-y border-white/5 bg-[#080808]">
+        <div className="text-center mb-8">
+           <h3 className="text-xl md:text-2xl font-serif font-bold text-white">Nichos que já aplicaram com sucesso:</h3>
+        </div>
+        <NicheMarquee />
+      </section>
 
       {/* SEÇÃO 6 – POR QUE É GRATUITO? (ESCURO) */}
       <section className="py-24 px-6 max-w-4xl mx-auto">
@@ -181,7 +244,7 @@ export const ContentSections: React.FC = () => {
         </div>
       </section>
 
-      {/* SEÇÃO 7 – PRA QUEM É (FUNDO CLARO PARA BIO) */}
+      {/* SEÇÃO 7 – PRA QUEM É (FUNDO CLARO) */}
       <section className="py-24 px-6 w-full bg-white text-neutral-900 border-t border-neutral-100">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
           <div>
@@ -209,13 +272,13 @@ export const ContentSections: React.FC = () => {
         </div>
       </section>
 
-      {/* SEÇÃO 8 – BIO (ESCURO/FINALIZAÇÃO) */}
+      {/* SEÇÃO 8 – BIO (ATUALIZADA) */}
       <section className="py-32 px-6 max-w-4xl mx-auto text-center bg-[#050505]">
         <div className="mb-12 relative inline-block">
           <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-red-900/30 mx-auto shadow-2xl shadow-red-900/20 bg-neutral-900">
             <img 
               src="https://i.ibb.co/SD4gMVXY/IMG-8474.jpg" 
-              alt="Tatiana e Fábio" 
+              alt="Tatiana Marx" 
               className="w-full h-full object-cover grayscale-[10%]"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400";
@@ -223,13 +286,15 @@ export const ContentSections: React.FC = () => {
             />
           </div>
         </div>
-        <h2 className="text-3xl font-serif font-bold text-white mb-8">Tatiana & Fábio</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+        
+        <h2 className="text-3xl font-serif font-bold text-white mb-8">Tatiana Marx</h2>
+        
+        {/* STATS: Ajustado para 3 itens */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {[
             { val: "R$ 10M+", label: "No Digital" },
             { val: "R$ 6M", label: "High Ticket" },
-            { val: "R$ 36M", label: "Para Clientes" },
-            { val: "3 Anos", label: "De Tese" }
+            { val: "R$ 36M", label: "Para Clientes" }
           ].map((stat, i) => (
             <div key={i} className="p-4 rounded-xl bg-neutral-900/50 border border-neutral-800">
               <div className="text-xl font-bold text-red-500">{stat.val}</div>
@@ -237,9 +302,28 @@ export const ContentSections: React.FC = () => {
             </div>
           ))}
         </div>
-        <p className="text-neutral-400 italic max-w-2xl mx-auto leading-relaxed">
-          Especialistas em unir posicionamento profundo, método próprio, IA e filosofia de vida.
-        </p>
+
+        {/* BIO TEXT: Long Story Format */}
+        <div className="text-neutral-400 text-sm md:text-base leading-relaxed space-y-6 text-justify md:text-center max-w-3xl mx-auto">
+          <p>
+            Sou uma generalista multiplicadora de talentos, com domínio sobre diversos assuntos e uma visão estratégica, criativa e intuitiva que me acompanha há mais de 12 anos atuando como estrategista de marca, marketing e gestão de negócios. Minha superpotência? Consigo decifrar um negócio, um produto, uma comunicação e, em segundos, identificar exatamente o que precisa ser feito para aquilo funcionar.
+          </p>
+          <p>
+            Minha especialidade é unir posicionamento profundo, método próprio, IA e filosofia de vida. Acredito em um marketing anti-hype, atemporal, baseado em Capital Autoral e sistemas — não em circo.
+          </p>
+          <p>
+            Já trabalhei com grandes nomes do entretenimento e liderei estratégias para projetos nos mais variados nichos. Mas há 3 anos, minha trajetória tomou um rumo inesperado: um esgotamento severo seguido de diversos problemas de saúde me deixaram de cama, incapaz de fazer lançamentos. Tive que fazer uma escolha difícil — cuidar da minha saúde física e mental ou abrir mão de tudo que havia construído no digital. Escolhi minha saúde. Sumi do Instagram, parei de vender meus cursos e mergulhei nos estudos. Foi quando descobri um novo caminho.
+          </p>
+          <p>
+            Nesse meio tempo, tomei outra decisão importante: construir minha própria família. Hoje sou mãe de duas filhas e, graças à metodologia de Lançamento High Ticket que criei junto com meu sócio e irmão e ao COSMOS (Sistema Orgânico Contínuo), onde 1 big ideia gera mais de 10 peças de conteúdo anti-superficialidade que podem ser distribuídas em múltiplos formatos e canais, construindo base e demanda qualificada com vendas constantes entre um carrinho e outro, me recuperei completamente e consigo priorizar minha família, estar presente e faturar múltiplos 6 dígitos mensais com leveza e autenticidade.
+          </p>
+          <p>
+            Até o final de 2025, já gerei mais de R$ 10 milhões no digital com meus produtos e serviços — R$ 6 milhões só de high ticket via lançamento — e ajudei meus mentorados a gerarem R$ 36 milhões nos últimos 3 anos.
+          </p>
+          <p>
+            Trabalho com uma camada de IA e uma rotina de apenas 4 horas por dia — agentes e sistemas de IA fazem o grosso operacional, enquanto eu foco em pensar, criar, decidir e liderar. Sem virar escrava de ferramentas nem de metas.
+          </p>
+        </div>
       </section>
     </div>
   );
