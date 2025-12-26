@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { X, ChevronRight, CheckCircle2, Lock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, ChevronRight, CheckCircle2, Lock, Loader2 } from 'lucide-react';
 
 interface RegistrationModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+// ⚠️ COLOQUE AQUI O LINK DO SEU GRUPO DE AVISOS
+const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/IStPwK6CVTlKn1W9fbJHgw';
 
 export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -15,14 +18,20 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // Validação: Só permite clicar se tudo estiver preenchido
+  const isValid = formData.email.length > 5 && 
+                  formData.phone.length > 10 && 
+                  formData.profile !== '';
+
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isValid) return; // Trava extra de segurança
+
     setIsSubmitting(true);
     
     try {
-      // Função para capturar cookies do navegador (necessário para fbp/fbc)
       const getCookie = (name: string) => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -30,21 +39,19 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
         return '';
       };
 
-      // 1. Prepara o payload enriquecido
       const payload = {
         email: formData.email,
         phone: `55${formData.phone.replace(/\D/g, '')}`,
         profile: formData.profile,
         origin: 'Landing Page High Ticket',
         date: new Date().toISOString(),
-        // Dados adicionais para inteligência do Meta Ads
         client_user_agent: navigator.userAgent,
         fbp: getCookie('_fbp'),
         fbc: getCookie('_fbc'),
         event_source_url: window.location.href
       };
 
-      // 2. Dispara o Webhook para o n8n
+      // Dispara o Webhook (CONFIGURAÇÃO MANTIDA INTACTA)
       const response = await fetch('https://foda-n8n-webhook.nxjcjs.easypanel.host/webhook/lead-lht', {
         method: 'POST',
         headers: {
@@ -53,10 +60,10 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
         body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
+      // Se deu certo (ou mesmo se falhar o n8n, liberamos o user para não travar a venda)
+      if (response.ok || response.status >= 200) {
         setIsSuccess(true);
       } else {
-        console.error('Erro ao enviar para o n8n');
         setIsSuccess(true); 
       }
 
@@ -68,23 +75,38 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
     }
   };
 
+  // Efeito para redirecionar após o sucesso
+  useEffect(() => {
+    if (isSuccess) {
+      const timer = setTimeout(() => {
+        // Isso força o navegador a abrir o App do WhatsApp (Deep Link Behavior)
+        window.location.href = WHATSAPP_GROUP_LINK;
+      }, 2000); // Espera 2 segundos mostrando a mensagem de sucesso
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
+
+  // TELA DE SUCESSO / REDIRECIONAMENTO
   if (isSuccess) {
     return (
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm animate-fade-in">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md animate-fade-in">
         <div className="relative w-full max-w-md p-8 rounded-3xl bg-neutral-900 border border-emerald-500/30 text-center shadow-[0_0_50px_rgba(16,185,129,0.1)]">
-           <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-500">
+           <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-500 animate-pulse">
              <CheckCircle2 size={32} />
            </div>
-           <h3 className="text-2xl font-serif font-bold text-white mb-2">Inscrição Confirmada</h3>
-           <p className="text-neutral-400 mb-6">Sua vaga está garantida. Enviamos os detalhes de acesso para o seu email.</p>
-           <button onClick={onClose} className="text-sm font-bold text-white underline underline-offset-4 hover:text-emerald-400">
-             Voltar ao site
-           </button>
+           <h3 className="text-2xl font-serif font-bold text-white mb-2">Inscrição Confirmada!</h3>
+           <p className="text-neutral-400 mb-6">Estamos te levando para o Grupo VIP no WhatsApp...</p>
+           
+           <div className="flex items-center justify-center gap-2 text-sm text-emerald-400 font-bold">
+             <Loader2 className="animate-spin" size={16} />
+             <span>Redirecionando...</span>
+           </div>
         </div>
       </div>
     );
   }
 
+  // TELA DO FORMULÁRIO
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm animate-fade-in">
       <div className="absolute inset-0" onClick={onClose}></div>
@@ -99,7 +121,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
         <div className="text-center mb-8">
           <span className="text-[10px] font-bold text-red-500 tracking-[0.2em] uppercase mb-2 block">Vaga Gratuita</span>
           <h2 className="text-2xl md:text-3xl font-serif font-bold text-white mb-2">Finalize sua Inscrição</h2>
-          <p className="text-xs text-neutral-400">Junte-se ao grupo seleto do Lançamento High Ticket 2026.</p>
+          <p className="text-xs text-neutral-400">Preencha para liberar seu acesso ao Grupo.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -155,14 +177,25 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
 
           <button 
             type="submit"
-            disabled={isSubmitting}
-            className="w-full group relative flex items-center justify-center gap-3 bg-white text-black font-black py-4 px-6 rounded-xl hover:scale-[1.02] active:scale-95 transition-all duration-300 overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+            disabled={!isValid || isSubmitting}
+            className={`w-full group relative flex items-center justify-center gap-3 font-black py-4 px-6 rounded-xl transition-all duration-300 overflow-hidden mt-2 
+              ${!isValid || isSubmitting 
+                ? 'bg-neutral-800 text-neutral-500 cursor-not-allowed opacity-70' 
+                : 'bg-white text-black hover:scale-[1.02] active:scale-95 cursor-pointer shadow-[0_0_20px_rgba(255,255,255,0.2)]'
+              }`}
           >
             <span className="uppercase tracking-widest text-sm relative z-10">
-              {isSubmitting ? 'Enviando...' : 'Confirmar Inscrição'}
+              {isSubmitting ? 'Processando...' : 'Entrar no Grupo VIP'}
             </span>
-            {!isSubmitting && <ChevronRight size={18} className="relative z-10 text-red-600" />}
-            <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-red-100/50 to-transparent group-hover:left-[100%] transition-all duration-700"></div>
+            
+            {!isSubmitting && isValid && (
+              <ChevronRight size={18} className="relative z-10 text-red-600" />
+            )}
+            
+            {/* Efeito de brilho só aparece quando o botão está ativo */}
+            {!isSubmitting && isValid && (
+              <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-red-100/50 to-transparent group-hover:left-[100%] transition-all duration-700"></div>
+            )}
           </button>
 
           <div className="flex items-center justify-center gap-2 text-[10px] text-neutral-500">
