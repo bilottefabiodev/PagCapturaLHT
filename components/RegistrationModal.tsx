@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, ChevronRight, CheckCircle2, Lock, Loader2 } from 'lucide-react';
+import { X, ChevronRight, CheckCircle2, Lock, Loader2, Globe } from 'lucide-react';
 
 interface RegistrationModalProps {
   isOpen: boolean;
@@ -13,17 +13,37 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
   const [formData, setFormData] = useState({
     email: '',
     phone: '',
+    ddi: '+55', // Padrão Brasil
     profile: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Validação
+  // Função de Máscara de Telefone (Visual apenas)
+  const formatPhone = (value: string) => {
+    // Remove tudo que não é número
+    const numbers = value.replace(/\D/g, '');
+    
+    // Limita a 11 dígitos (DDD + 9 números)
+    const limited = numbers.slice(0, 11);
+
+    // Aplica a máscara (XX) XXXXX-XXXX
+    if (limited.length <= 2) return limited;
+    if (limited.length <= 7) return `(${limited.slice(0, 2)}) ${limited.slice(2)}`;
+    return `(${limited.slice(0, 2)}) ${limited.slice(2, 7)}-${limited.slice(7)}`;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhone(e.target.value);
+    setFormData({ ...formData, phone: formatted });
+  };
+
+  // Validação (Checa se tem pelo menos 10 digitos no numero fora o DDD)
   const isValid = formData.email.length > 5 && 
-                  formData.phone.length > 10 && 
+                  formData.phone.replace(/\D/g, '').length >= 10 && 
                   formData.profile !== '';
 
-  // Resetar estados quando o modal for fechado ou aberto novamente
+  // Resetar estados
   useEffect(() => {
     if (isOpen) {
       setIsSuccess(false);
@@ -34,16 +54,11 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
   // Efeito seguro para Redirecionamento
   useEffect(() => {
     let timer: number;
-    
     if (isSuccess) {
-      // Espera 2 segundos mostrando a mensagem de sucesso e redireciona
       timer = window.setTimeout(() => {
-        // window.location.href = WHATSAPP_GROUP_LINK; // Pode causar conflito
-        window.location.assign(WHATSAPP_GROUP_LINK); // Mais seguro e explícito
+        window.location.assign(WHATSAPP_GROUP_LINK);
       }, 2000);
     }
-
-    // Limpeza crucial para evitar vazamento de memória ou erros se o componente desmontar
     return () => {
       if (timer) clearTimeout(timer);
     };
@@ -65,9 +80,15 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
         return '';
       };
 
+      // PREPARAÇÃO DO PAYLOAD
+      // Junta o DDI (sem o +) com o Telefone (sem mascara)
+      const cleanDDI = formData.ddi.replace('+', '');
+      const cleanPhone = formData.phone.replace(/\D/g, '');
+      const fullPhoneNumber = `${cleanDDI}${cleanPhone}`;
+
       const payload = {
         email: formData.email,
-        phone: `55${formData.phone.replace(/\D/g, '')}`,
+        phone: fullPhoneNumber, // Envia no formato 5511999999999
         profile: formData.profile,
         origin: 'Landing Page High Ticket',
         date: new Date().toISOString(),
@@ -77,16 +98,12 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
         event_source_url: window.location.href
       };
 
-      // Dispara o Webhook
       const response = await fetch('https://foda-n8n-webhook.nxjcjs.easypanel.host/webhook/lead-lht', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
-      // Independente da resposta do n8n, consideramos sucesso para o usuário
       setIsSuccess(true);
 
     } catch (error) {
@@ -113,11 +130,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
              <span>Redirecionando...</span>
            </div>
            
-           {/* Botão de fallback caso o redirecionamento automático falhe */}
-           <a 
-             href={WHATSAPP_GROUP_LINK}
-             className="block mt-6 text-xs text-neutral-500 underline hover:text-white"
-           >
+           <a href={WHATSAPP_GROUP_LINK} className="block mt-6 text-xs text-neutral-500 underline hover:text-white">
              Se não abrir automaticamente, clique aqui.
            </a>
         </div>
@@ -144,6 +157,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Campo Email */}
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-neutral-300 uppercase tracking-wider ml-1">Email Profissional</label>
             <input 
@@ -156,23 +170,43 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
             />
           </div>
 
+          {/* Campo WhatsApp com DDI Select e Máscara */}
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-neutral-300 uppercase tracking-wider ml-1">WhatsApp</label>
-            <div className="relative flex items-center">
-              <div className="absolute left-0 pl-4 pr-2 border-r border-neutral-800 text-neutral-500 select-none font-medium">
-                +55
+            <div className="flex gap-2">
+              {/* Seletor de DDI */}
+              <div className="relative w-28 shrink-0">
+                <select
+                  value={formData.ddi}
+                  onChange={(e) => setFormData({...formData, ddi: e.target.value})}
+                  className="w-full h-full appearance-none bg-neutral-900/50 border border-neutral-800 rounded-xl pl-4 pr-8 py-3 text-white focus:outline-none focus:border-red-600 cursor-pointer font-medium text-sm"
+                >
+                  <option value="+55">🇧🇷 +55</option>
+                  <option value="+1">🇺🇸 +1</option>
+                  <option value="+351">🇵🇹 +351</option>
+                  <option value="+44">🇬🇧 +44</option>
+                  <option value="+34">🇪🇸 +34</option>
+                </select>
+                {/* Ícone seta customizado para o select */}
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500">
+                  <ChevronRight size={14} className="rotate-90" />
+                </div>
               </div>
+
+              {/* Input Telefone Mascarado */}
               <input 
                 type="tel" 
                 required
+                maxLength={15} // Limita caracteres da máscara
                 placeholder="(11) 99999-9999"
-                className="w-full bg-neutral-900/50 border border-neutral-800 rounded-xl pl-16 pr-4 py-3 text-white placeholder:text-neutral-600 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600/50 transition-all"
+                className="w-full bg-neutral-900/50 border border-neutral-800 rounded-xl px-4 py-3 text-white placeholder:text-neutral-600 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600/50 transition-all font-medium"
                 value={formData.phone}
-                onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                onChange={handlePhoneChange}
               />
             </div>
           </div>
 
+          {/* Campo Perfil */}
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-neutral-300 uppercase tracking-wider ml-1">Seu Momento Atual</label>
             <div className="relative">
