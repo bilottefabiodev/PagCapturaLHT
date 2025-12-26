@@ -1,30 +1,35 @@
 import React from 'react';
-import { Calendar, Clock, MapPin, CheckCircle2, ChevronRight } from 'lucide-react';
-// Mantenha seu import da imagem aqui
+import { Calendar, Clock, CheckCircle2, ChevronRight } from 'lucide-react';
+// Importação da imagem local
 import expertPhoto from '@/assets/images/foto-hd.jpg'; 
 
-export const Hero: React.FC = () => {
+// 1. Definição da Interface para receber a função do Modal
+interface HeroProps {
+  onOpenModal: () => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
   return (
-    // ALTERAÇÃO 1: px-0 no mobile (para a foto colar na borda), md:px-6 no desktop
     <section className="relative w-full max-w-7xl mx-auto px-0 md:px-6 py-0 md:py-24 flex flex-col items-center gap-8 lg:gap-12">
       
       {/* 1. IMAGEM (Topo) */}
       <div className="relative w-full max-w-2xl lg:max-w-3xl mx-auto">
-        {/* Glow de Fundo (Ajustado) */}
+        {/* Glow de Fundo */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-red-600/10 blur-[100px] rounded-full -z-10"></div>
         
-        {/* ALTERAÇÃO 2: rounded-none no mobile (borda reta), rounded-[2.5rem] no desktop */}
+        {/* Container da Imagem: Reto no mobile, Arredondado no desktop */}
         <div className="relative aspect-video w-full overflow-hidden rounded-none md:rounded-[2.5rem] border-y md:border border-white/5 shadow-2xl bg-neutral-900 group">
             <img 
               src={expertPhoto}
               alt="Expert Scarlet Hypnosis" 
               className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 ease-out"
             />
+            {/* Vinheta para integrar com o fundo */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
         </div>
       </div>
 
-      {/* Wrapper de Conteúdo com Padding no Mobile (já que tiramos da section) */}
+      {/* Wrapper de Conteúdo */}
       <div className="px-6 md:px-0 w-full flex flex-col items-center gap-8">
 
         {/* 2. BARRA DE METADADOS */}
@@ -76,8 +81,9 @@ export const Hero: React.FC = () => {
           </div>
 
           <div className="pt-4 flex flex-col items-center gap-6">
+              {/* BOTÃO PRINCIPAL COM AÇÃO DO MODAL */}
               <button 
-                onClick={() => window.scrollTo({ top: 1200, behavior: 'smooth' })}
+                onClick={onOpenModal}
                 className="group relative flex items-center justify-center gap-4 bg-white text-black font-black py-5 px-10 rounded-full shadow-[0_0_50px_rgba(255,255,255,0.15)] hover:scale-[1.03] active:scale-95 transition-all duration-300 w-full sm:w-auto overflow-hidden"
               >
                 <span className="uppercase tracking-widest text-sm md:text-base">Garantir Vaga Gratuita</span>
