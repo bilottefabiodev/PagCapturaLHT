@@ -6,7 +6,7 @@ interface RegistrationModalProps {
   onClose: () => void;
 }
 
-// ⚠️ COLOQUE AQUI O LINK DO SEU GRUPO DE AVISOS
+// LINK DO GRUPO (Substitua pelo seu link real)
 const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/IStPwK6CVTlKn1W9fbJHgw';
 
 export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose }) => {
@@ -18,16 +18,42 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Validação: Só permite clicar se tudo estiver preenchido
+  // Validação
   const isValid = formData.email.length > 5 && 
                   formData.phone.length > 10 && 
                   formData.profile !== '';
+
+  // Resetar estados quando o modal for fechado ou aberto novamente
+  useEffect(() => {
+    if (isOpen) {
+      setIsSuccess(false);
+      setIsSubmitting(false);
+    }
+  }, [isOpen]);
+
+  // Efeito seguro para Redirecionamento
+  useEffect(() => {
+    let timer: number;
+    
+    if (isSuccess) {
+      // Espera 2 segundos mostrando a mensagem de sucesso e redireciona
+      timer = window.setTimeout(() => {
+        // window.location.href = WHATSAPP_GROUP_LINK; // Pode causar conflito
+        window.location.assign(WHATSAPP_GROUP_LINK); // Mais seguro e explícito
+      }, 2000);
+    }
+
+    // Limpeza crucial para evitar vazamento de memória ou erros se o componente desmontar
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isSuccess]);
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isValid) return; // Trava extra de segurança
+    if (!isValid) return;
 
     setIsSubmitting(true);
     
@@ -51,7 +77,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
         event_source_url: window.location.href
       };
 
-      // Dispara o Webhook (CONFIGURAÇÃO MANTIDA INTACTA)
+      // Dispara o Webhook
       const response = await fetch('https://foda-n8n-webhook.nxjcjs.easypanel.host/webhook/lead-lht', {
         method: 'POST',
         headers: {
@@ -60,33 +86,18 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
         body: JSON.stringify(payload),
       });
 
-      // Se deu certo (ou mesmo se falhar o n8n, liberamos o user para não travar a venda)
-      if (response.ok || response.status >= 200) {
-        setIsSuccess(true);
-      } else {
-        setIsSuccess(true); 
-      }
+      // Independente da resposta do n8n, consideramos sucesso para o usuário
+      setIsSuccess(true);
 
     } catch (error) {
-      console.error('Erro de conexão:', error);
+      console.error('Erro:', error);
       setIsSuccess(true);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Efeito para redirecionar após o sucesso
-  useEffect(() => {
-    if (isSuccess) {
-      const timer = setTimeout(() => {
-        // Isso força o navegador a abrir o App do WhatsApp (Deep Link Behavior)
-        window.location.href = WHATSAPP_GROUP_LINK;
-      }, 2000); // Espera 2 segundos mostrando a mensagem de sucesso
-      return () => clearTimeout(timer);
-    }
-  }, [isSuccess]);
-
-  // TELA DE SUCESSO / REDIRECIONAMENTO
+  // TELA DE SUCESSO
   if (isSuccess) {
     return (
       <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md animate-fade-in">
@@ -101,6 +112,14 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
              <Loader2 className="animate-spin" size={16} />
              <span>Redirecionando...</span>
            </div>
+           
+           {/* Botão de fallback caso o redirecionamento automático falhe */}
+           <a 
+             href={WHATSAPP_GROUP_LINK}
+             className="block mt-6 text-xs text-neutral-500 underline hover:text-white"
+           >
+             Se não abrir automaticamente, clique aqui.
+           </a>
         </div>
       </div>
     );
@@ -192,7 +211,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
               <ChevronRight size={18} className="relative z-10 text-red-600" />
             )}
             
-            {/* Efeito de brilho só aparece quando o botão está ativo */}
             {!isSubmitting && isValid && (
               <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-red-100/50 to-transparent group-hover:left-[100%] transition-all duration-700"></div>
             )}
