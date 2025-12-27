@@ -94,7 +94,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
               </button>
 
               <p className="text-neutral-500 text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold">
-                ...SEM EQUIPE DEDICADA, COM ROTINA REAL DE 4H POR DIA.
+                 Aula estratégica gratuita para experts, mentores e prestadores de serviço que desejam 
+            masterizar seus lançamentos faturando mais com o mesmo investimento, diminuir complexidade em 4x 
+            e sair da roda de rato do lança lança implementando um sistema orgânico e atemporal que gera 
+            demanda qualificada e vendas entre um carrinho e outro
               </p>
           </div>
         </div>
