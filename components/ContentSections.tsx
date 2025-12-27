@@ -2,7 +2,7 @@ import React from 'react';
 import { 
   Target, Cpu, Instagram, Users, BarChart3, Clock, 
   UserCheck, UserMinus, CheckCircle2, Quote, Sparkles, 
-  Zap, ShieldCheck, Heart, Layout, Bot 
+  Zap, ShieldCheck, Heart, Layout, Bot, ArrowDown, AlertTriangle 
 } from 'lucide-react';
 
 // Card adaptável para a Seção de Problemas
@@ -18,7 +18,7 @@ const ProblemCard: React.FC<{ title: string; children: React.ReactNode; icon: Re
   </div>
 );
 
-// Carrossel de Nichos (Mantido conforme original)
+// Carrossel de Nichos
 const NicheMarquee = () => {
   const nichesrow1 = ["Astrologia", "Consultoria Financeira", "Desbloqueio de crenças", "Psicologia Clínica", "Copywriter", "Direção Artística", "Branding", "Marketing Digital", "Kundalini", "Inglês", "Constelação Familiar"];
   const nichesrow2 = ["Eneagrama e Temperamentos", "Ho'oponopono", "Tarô", "Composição Musical", "Coach de Surfe", "Tzolkin", "Consultoria de Estilo", "Advocacia", "Pilates", "Feitiços e Magia", "Cura Quântica"];
@@ -55,49 +55,105 @@ export const ContentSections: React.FC = () => {
   return (
     <div className="w-full">
       
-      {/* SEÇÃO 1 – O CONTEXTO (SEM ROMANCE) */}
-      <section className="py-24 px-6 w-full bg-[#F5F5F7] text-neutral-900">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-8 text-red-950">Você não está fracassando nos lançamentos.</h2>
-            <p className="text-xl md:text-2xl text-neutral-600 font-light max-w-3xl mx-auto">
-              Você está pagando caro por um modelo que foi desenhado para outro momento do mercado.
-            </p>
+      {/* SEÇÃO 1 – O CONTEXTO (VISUAL REDESENHADO, TEXTO ORIGINAL MANTIDO) */}
+      <section className="relative py-24 px-6 w-full bg-[#F5F5F7] text-neutral-900 overflow-hidden">
+        {/* Background Decorativo Suave */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-red-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          
+          {/* Cabeçalho Centralizado */}
+          <div className="text-center mb-20 max-w-4xl mx-auto">
+             <h2 className="text-4xl md:text-6xl font-serif font-bold mb-8 text-red-950 leading-[1.1]">
+               Você não está fracassando <br/>
+               <span className="italic">nos lançamentos.</span>
+             </h2>
+             <p className="text-xl md:text-2xl text-neutral-600 font-light max-w-3xl mx-auto leading-relaxed">
+               Você está pagando caro por um modelo que foi desenhado para outro momento do mercado.
+             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <p className="text-lg font-medium text-red-900 uppercase tracking-widest">O mercado digital brasileiro não morreu. Ele só ficou caro, desconfiado e saturado.</p>
-              <div className="space-y-4">
-                <p className="font-bold text-neutral-800">Hoje:</p>
-                <ul className="space-y-3 text-neutral-600">
-                  <li className="flex gap-3 items-start"><span className="text-red-600 font-bold">•</span> Tráfego custa mais</li>
-                  <li className="flex gap-3 items-start"><span className="text-red-600 font-bold">•</span> O lead confia menos</li>
-                  <li className="flex gap-3 items-start"><span className="text-red-600 font-bold">•</span> O público já viu todas as promessas exageradas possíveis</li>
-                  <li className="flex gap-3 items-start"><span className="text-red-600 font-bold">•</span> A maioria dos experts continua rodando o mesmo tipo de lançamento de 2021/22</li>
+          {/* Grid de Comparação */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            
+            {/* Coluna 1: O Mercado (Texto direto no fundo cinza) */}
+            <div className="space-y-10 md:py-4">
+              <p className="text-lg md:text-xl font-bold text-red-900 uppercase tracking-widest leading-relaxed border-l-4 border-red-500 pl-6">
+                O mercado digital brasileiro não morreu. Ele só ficou caro, desconfiado e saturado.
+              </p>
+              
+              <div className="space-y-6 pl-6">
+                <p className="font-bold text-neutral-900 text-lg">Hoje:</p>
+                <ul className="space-y-4 text-neutral-600 text-lg">
+                  <li className="flex gap-4 items-center">
+                    <span className="w-2 h-2 rounded-full bg-red-600 flex-shrink-0"></span> 
+                    Tráfego custa mais
+                  </li>
+                  <li className="flex gap-4 items-center">
+                    <span className="w-2 h-2 rounded-full bg-red-600 flex-shrink-0"></span> 
+                    O lead confia menos
+                  </li>
+                  <li className="flex gap-4 items-start">
+                    <span className="w-2 h-2 rounded-full bg-red-600 flex-shrink-0 mt-2"></span> 
+                    O público já viu todas as promessas exageradas possíveis
+                  </li>
+                  <li className="flex gap-4 items-start">
+                    <span className="w-2 h-2 rounded-full bg-red-600 flex-shrink-0 mt-2"></span> 
+                    A maioria dos experts continua rodando o mesmo tipo de lançamento de 2021/22
+                  </li>
                 </ul>
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-3xl border border-neutral-200 shadow-sm space-y-6">
-              <p className="font-bold text-neutral-800 italic">Enquanto isso, você:</p>
-              <ul className="space-y-3 text-neutral-600">
-                <li className="flex gap-2">✓ Já faturou alto</li>
-                <li className="flex gap-2">✓ Já tem prova social e resultado</li>
-                <li className="flex gap-2">✓ Já estudou mais do que gostaria de admitir</li>
-              </ul>
-              <p className="text-sm text-red-700 font-semibold border-t pt-4">
-                ...mas está repetindo um modelo que não foi desenhado pra high ticket sustentável em 2026.
-              </p>
+            {/* Coluna 2: Você (Card Branco Flutuante) */}
+            <div className="relative">
+              <div className="bg-white p-10 rounded-[2.5rem] shadow-2xl shadow-neutral-200/50 border border-white space-y-8 relative overflow-hidden">
+                {/* Detalhe de topo */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 to-red-900"></div>
+
+                <p className="font-bold text-neutral-900 text-xl font-serif italic">Enquanto isso, você:</p>
+                
+                <ul className="space-y-4 text-neutral-700 font-medium">
+                  <li className="flex items-center gap-3 p-3 rounded-lg bg-neutral-50">
+                    <CheckCircle2 size={20} className="text-emerald-600 flex-shrink-0" /> 
+                    Já faturou alto
+                  </li>
+                  <li className="flex items-center gap-3 p-3 rounded-lg bg-neutral-50">
+                    <CheckCircle2 size={20} className="text-emerald-600 flex-shrink-0" /> 
+                    Já tem prova social e resultado
+                  </li>
+                  <li className="flex items-center gap-3 p-3 rounded-lg bg-neutral-50">
+                    <CheckCircle2 size={20} className="text-emerald-600 flex-shrink-0" /> 
+                    Já estudou mais do que gostaria de admitir
+                  </li>
+                </ul>
+                
+                <div className="pt-6 border-t border-neutral-100">
+                  <p className="text-red-800 font-medium leading-relaxed">
+                    ...mas está repetindo um modelo que não foi desenhado pra high ticket sustentável em 2026.
+                  </p>
+                </div>
+              </div>
             </div>
+
           </div>
 
-          <div className="mt-16 p-10 bg-neutral-900 rounded-[2rem] text-white text-center shadow-2xl">
-            <p className="text-xl md:text-2xl font-serif italic mb-4">"O resultado você conhece: pico de faturamento, ressaca emocional, física e espiritual, meses sem base construída..."</p>
-            <p className="text-red-500 font-bold uppercase tracking-widest text-sm">
-              E aquele gosto amargo de estar “profissionalizando o circo”, não construindo um império.
-            </p>
+          {/* Bloco de Citação Final (Dark Mode para contraste) */}
+          <div className="mt-20 p-10 md:p-14 bg-neutral-900 rounded-[2.5rem] text-white text-center shadow-2xl relative overflow-hidden">
+             {/* Glow decorativo */}
+             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-600/10 blur-[100px] rounded-full"></div>
+             
+             <div className="relative z-10 max-w-3xl mx-auto space-y-6">
+                <p className="text-xl md:text-3xl font-serif italic leading-relaxed text-neutral-200">
+                  "O resultado você conhece: pico de faturamento, ressaca emocional, física e espiritual, meses sem base construída..."
+                </p>
+                <div className="w-16 h-1 bg-red-600 mx-auto rounded-full"></div>
+                <p className="text-red-500 font-bold uppercase tracking-widest text-sm md:text-base">
+                  E aquele gosto amargo de estar “profissionalizando o circo”, não construindo um império.
+                </p>
+             </div>
           </div>
+
         </div>
       </section>
 
@@ -112,32 +168,32 @@ export const ContentSections: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <ProblemCard title="1. Sobrecarga Total" icon={<Cpu size={24} />}>
             <p>Você toca estratégia, conteúdo, pessoas, atendimento, entrega, financeiro. Qualquer “estratégia perfeita” que dependa de você em tempo integral, morreu na largada.</p>
-            <p className="text-red-500/80 font-medium">Use IA e arquitetura de funil pra operacionalizar até 70% do modelo e liberar espaço real para uma rotina de 4h/dia focada em decisão, criação e liderança.</p>
+            <p className="text-red-500/80 font-medium border-t border-white/5 pt-2 mt-2">A Solução: Operacionalizar 70% com IA.</p>
           </ProblemCard>
 
           <ProblemCard title="2. Conversões Derretendo" icon={<Target size={24} />}>
             <p>O público avançado sente na hora gatilhos baratos e promessas exageradas. Nesse modelo, a base não é copy mirabolante, é Capital Autoral, Eu-Nicho e Categoria.</p>
-            <p className="text-red-500/80 font-medium">Crie uma categoria no mercado onde você é a opção óbvia, sem negociar seus valores nem sacrificar autenticidade pra caber em trend.</p>
+            <p className="text-red-500/80 font-medium border-t border-white/5 pt-2 mt-2">A Solução: Autoridade por profundidade.</p>
           </ProblemCard>
 
           <ProblemCard title="3. Dependência do Insta" icon={<Instagram size={24} />}>
             <p>Se seu faturamento depende do próximo post, você tem um evento recorrente, não um negócio. A peça que falta é o COSMOS: conteúdo profundo que mantém demanda orgânica viva.</p>
-            <p className="text-red-500/80 font-medium">Pare de depender do Insta pra sobreviver e comece a usá-lo como uma das órbitas, não o sol do sistema.</p>
+            <p className="text-red-500/80 font-medium border-t border-white/5 pt-2 mt-2">A Solução: Ativos perenes fora do feed.</p>
           </ProblemCard>
 
           <ProblemCard title="4. Falta de Tempo Real" icon={<Clock size={24} />}>
             <p>Modo campanha eterno: acabou um carrinho, já está no pré do próximo. Não sobra tempo para testar novas estratégias, construir base ou recuperar energia criativa.</p>
-            <p className="text-red-500/80 font-medium">Implemente rituais de criatividade e recuperação (Regra de Vida) com 1 núcleo de conteúdo por semana e derivação assistida por IA.</p>
+            <p className="text-red-500/80 font-medium border-t border-white/5 pt-2 mt-2">A Solução: Rotina de 4h/dia.</p>
           </ProblemCard>
 
           <ProblemCard title="5. Cárcere com Ring Light" icon={<Users size={24} />}>
             <p>Se o negócio para quando você some, isso não é liberdade, é ser funcionário da própria reputação. Este modelo foi desenhado para tirar o negócio de cima da sua cara e dos seus nervos.</p>
-            <p className="text-red-500/80 font-medium">Prepare terreno para escala infinita com formatos menos dependentes de performance e comece a ser arquiteto de ativos reais.</p>
+            <p className="text-red-500/80 font-medium border-t border-white/5 pt-2 mt-2">A Solução: Escala sem sua presença física.</p>
           </ProblemCard>
 
           <ProblemCard title="6. Esforço Desproporcional" icon={<BarChart3 size={24} />}>
             <p>Lançamentos que empatam ou dão lucro pequeno perto da energia gasta. O problema não é o mercado desconfiado, é a estratégia que não maximiza profundidade e conversas qualificadas.</p>
-            <p className="text-red-500/80 font-medium">Junte o melhor dos mundos de forma inteligente para não depender de um único tipo de funil.</p>
+            <p className="text-red-500/80 font-medium border-t border-white/5 pt-2 mt-2">A Solução: Funil Híbrido.</p>
           </ProblemCard>
         </div>
       </section>
@@ -156,7 +212,7 @@ export const ContentSections: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
           {[
             { 
               title: "Lançamento Gratuito", 
@@ -169,7 +225,7 @@ export const ContentSections: React.FC = () => {
               icon: <ShieldCheck className="text-red-500" size={20} />
             },
             { 
-              title: "COSMOS (Sistema Orgânico Contínuo)", 
+              title: "COSMOS (Sistema Orgânico)", 
               desc: "1 big ideia que gera +10 peças anti-superficialidade distribuídas em múltiplos canais, gerando vendas entre um carrinho e outro.",
               icon: <Layout className="text-red-500" size={20} />
             },
@@ -370,7 +426,7 @@ export const ContentSections: React.FC = () => {
         </div>
       </section>
 
-      {/* CTA FINAL (A SEÇÃO QUE FALTAVA) */}
+      {/* CTA FINAL */}
       <section className="py-24 px-6 w-full bg-neutral-900 border-t border-red-900/30">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <div className="space-y-4">
