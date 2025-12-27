@@ -71,7 +71,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
               {[
                 "o volume de leads do lançamento gratuito",
                 "o ROI do lançamento pago",
-                "um sistema orgânico que continua vendendo entre um carrinho e outro)"
+                "um sistema orgânico que continua vendendo entre um carrinho e outro"
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-3 text-neutral-300 text-sm md:text-base px-4 py-2 bg-white/[0.02] border border-white/[0.05] rounded-full justify-center">
                   <CheckCircle2 size={16} className="text-red-600 flex-shrink-0" />
