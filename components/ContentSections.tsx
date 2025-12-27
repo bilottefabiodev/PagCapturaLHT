@@ -367,7 +367,8 @@ export const ContentSections: React.FC = () => {
               <h2 className="text-3xl font-serif font-bold">Pra quem é</h2>
             </div>
             <ul className="space-y-6 text-neutral-600 font-medium">
-              <li className="flex gap-3">✓ Experts que já bateram 6 ou 7 dígitos</li>
+              <li className="flex gap-3">✓ já tem negócio, base de clientes e resultado comprovado</li>
+              <li className="flex gap-3">✓ Experts que já bateram 6 ou 7 dígitos em algum momento da jornada</li>
               <li className="flex gap-3">✓ Quem sente que o faturamento custa caro demais à saúde e família</li>
               <li className="flex gap-3">✓ Quem não aguenta mais o marketing superficial do momento</li>
               <li className="flex gap-3">✓ Quem quer automatizar sem virar refém de time grande</li>
